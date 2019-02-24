@@ -1,6 +1,6 @@
 //GlideRecord
 
-//Example 1
+//Example 1 - addQuery
 
 var incidentGR = new GlideRecord ('incident')
 incidentGR.addQuery('priority',1)
@@ -9,13 +9,13 @@ while(incidentGR.next()){
     gs.print('Incydent: ' + incidentGR.number + ':' + incidentGR.priority.getDisplayValue())
 }
 
-//Example 2
+//Example 2 - get
 
 var incidentGRTwo = new GlideRecord('incident')
 incidentGRTwo.get('a9e428cac61122760075710592216c58')
 gs.print('Short description: ' + incidentGRTwo.short_description + ' ' + 'Sys_ID:' + incidentGRTwo.sys_id) 
 
-//Example 3
+//Example 3 - addEncodeQuery
 
 var incidentGRThree = new GlideRecord('incident')
 incidentGRThree.addEncodedQuery('priority=1^state=3')
@@ -24,7 +24,7 @@ while(incidentGRThree.next()){
     gs.print(incidentGRThree.number)
 }
 
-//Example 4
+//Example 4 - newRecord
 
 var incidentGRFour = new GlideRecord('incident')
 incidentGRFour.newRecord()
@@ -32,7 +32,7 @@ incidentGRFour.short_description = 'Hello Word!'
 var incidentGRFiveSysID = incidentGRFour.insert()
 gs.print(incidentGRFiveSysID)
 
-//Example 5
+//Example 5 - newRecord
 
 var incidents = []
 var counter = 1
@@ -45,7 +45,7 @@ while(counter<=5){
 }
 gs.print(incidents)
 
-//Example 6
+//Example 6 - deleteRecord
 
 var incidentSeven = new GlideRecord('incident')
 incidentSeven.addQuery('short_description','This is #3record')
