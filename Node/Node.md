@@ -23,3 +23,5 @@ const server = http.createServer((req,res)=>{
 })
 
 server.listen(3000)
+
+Pętla zdarzeń - cały kod jest przez nia zarzadzany od momentu zarejestrowania do wyrejestrowania. 
