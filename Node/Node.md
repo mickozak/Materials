@@ -6,3 +6,20 @@ Po stronie klienta używamy html, css oraz js. Użytkownik wysyła zapytania do 
 
 Podejście REPL - Read Eval Print Loop - wykonujemy kod podczas pisania.
 Execute Files - wykorzystywane w prawdziwych aplikacjach.
+
+Moduły
+1. http - uruchomienie serwera, wysyłanie requests
+2. https - umożliwia uruchamianie SSL
+3. fs
+4. path
+5. os
+
+Start Serwera
+
+const http = require('http')
+
+const server = http.createServer((req,res)=>{
+    console.log(req)
+})
+
+server.listen(3000)
