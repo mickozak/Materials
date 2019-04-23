@@ -46,3 +46,4 @@ Większe pliki i długie operacje są wysyłane do Worker Pool, która jest zarz
 Event Loop na początku każdej nowej iteracji sprawwdza czy są jakieś wywołania czasowe, które powinna wykonać. W dalszej kolejności sprawdza inne wywołania zwrotne gdy mamy zapis lub odczyt pliku (wszelkie operacje na plikach, ale też operacje sieciowe,...). Kolejna faza to faza przeciągania w której Node.js szuka nowych zdarzeń IO i zrobi wszystko, aby od razu wykonać ich callback jak również sprawdza wywołania czasowe i jeśli takie się znajdują przeskakuje aby je wykonać. W fazie sprawdzania będą wykonane natychmiastowe wywołania zwrotne. Wywołania natychmiastowe setImmediate() zostanie wykonane natychmiast ale zawsze po wykonaniu otwarych wywołań zwrotnych. W piątej fazie Node.js wywoła wszystkie zamknięte wywołania zwrotne. 
 Każde wywołania zwrotne zwiększa refs (process.exit refs==0)
 
+JEŚLI KOD BĘDZIE UMIESZCZONY Z ZDARZENIU NIE ZOSTANIE WYWOŁANY ODRAZU!!!
