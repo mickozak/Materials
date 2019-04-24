@@ -47,3 +47,23 @@ Event Loop na początku każdej nowej iteracji sprawwdza czy są jakieś wywoła
 Każde wywołania zwrotne zwiększa refs (process.exit refs==0)
 
 JEŚLI KOD BĘDZIE UMIESZCZONY Z ZDARZENIU NIE ZOSTANIE WYWOŁANY ODRAZU!!!
+
+Debugging
+
+NPM - menedzer pakietów węzłów. Możemu użyć NPM do instalacji paczek dodatkowych lub zainicjować tak zwany projekt węzła.  
+
+NPM INIT() - rozpoczyna proces tworzenia paczki którą możemy wykorzystać w przyszłości.
+
+Paczka Nodemon to pakiet do automatycznego restartowania.
+
+Pakiety można podzielić na pomagające w rozoju naszej aplikacji oraz pakiety pomagajće w działaniu. 
+
+npm install nodemon --save-dev
+npm install nodemon --save
+npm install nodemon -g
+npm install
+
+Typy błędów:
+- związane ze składnią,
+- błędy środowiska wykonawczego,
+- błędy logiczne.
