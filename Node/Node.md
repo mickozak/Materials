@@ -67,3 +67,5 @@ Typy błędów:
 - związane ze składnią,
 - błędy środowiska wykonawczego,
 - błędy logiczne.
+
+Express.js - framework dla Node.js który przyspiesza tworzenie projektu.
