@@ -67,3 +67,49 @@ Typy błędów:
 - błędy logiczne.
 
 Express.js - framework dla Node.js który przyspiesza tworzenie projektu.
+
+const http = require('http');
+const app = express()
+const server = http.createServer(app)
+server.listen(3000)
+
+Middleware
+
+Request -> Middleware -> Middleware -> Response
+
+Przychodzące żądanie jest automatycznie kierowane przez grupę funkcji przez express.js, więc zmiast tylko jednego programu obsługi żądań faktycznie będziesz mieć możliwość zahaczenia wiele funkcji przez które żądanie będzie przekazywane dopóki nie wyślesz odpowiedzi. Pozwala to na podzielenie kodu na wiele bloków lub elementów zamiast posiadania jednej ogromnej funkcji, która wykonuje wszystko.
+
+"Use" pozwala nam dodać nową funkcję middleware. Można przekazać do jego wnętrza funkcje która zostanie wykonana dla każdego przychodzącego żądania. Funkcja otrzymuje trzy argumenty: żądanie, odpowiedz, next. 
+
+Next jest w rzeczywistości funkcją, funkcja, która zostanie przekazana do tej funkcji przez expressjs i może być to mylące, ponieważ przekazujemy funkcje jako argument do metody użycia a ta funkcja którą przekazujemy odbiera kolejną funkcję w tym miejscu. Funkcja którą otrzymujesz musi zostać wykonana aby umożliwić przejście do następnego oprogramowania pośredniego. 
+
+ABY PRZEJŚĆ DO KOLEJNEGO OPROGRAMOWANIA POŚREDNIEGO MUSIMY WYWOŁAĆ NEXT()
+
+Aby wysłać odpowiedz posługujemy się drugim argumentem funkcji i dodajemy send.
+res.send('')
+
+app.use((req, res, next) => {
+console.log('In the middleware!');
+next();
+});
+
+app.use((req, res, next) => {
+    console.log('In another middleware!');
+    res.send('<h1>Hello!<h1>')
+});
+
+Funckaj use ma wiele zastosowań. 
+
+app.use([path],callback[,callback...]) - path pozwala nam odfiltrować pewne żądania, jednak działa to trchę inaczej niż poprzednio.Następnie jest callback, funkcja która powinna zostać wykonana i możem mieć wiecej niż jedno wywołanie zwrotne, możemy mieć tyle ile chcemy, możemy również mieć wiele filtrów ścieżki. 
+
+Kolejną paczką którą należy zainstalować jest npm install --save body-parser
+
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded())
+
+Urlencoded to funkcja którą musisz wykonać i możesz przekazać opcje aby ją skonfigurować. 
+
+Extended ustawione na false umożliwia analizowanie innych funkcji. 
+
+
