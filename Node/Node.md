@@ -95,10 +95,10 @@ next();
 
 app.use((req, res, next) => {
     console.log('In another middleware!');
-    res.send('<h1>Hello!<h1>')
+    res.send('Hello!')
 });
 
-Funckaj use ma wiele zastosowań. 
+Funkcja use ma wiele zastosowań. 
 
 app.use([path],callback[,callback...]) - path pozwala nam odfiltrować pewne żądania, jednak działa to trchę inaczej niż poprzednio.Następnie jest callback, funkcja która powinna zostać wykonana i możem mieć wiecej niż jedno wywołanie zwrotne, możemy mieć tyle ile chcemy, możemy również mieć wiele filtrów ścieżki. 
 
