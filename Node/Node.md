@@ -112,4 +112,33 @@ Urlencoded to funkcja którą musisz wykonać i możesz przekazać opcje aby ją
 
 Extended ustawione na false umożliwia analizowanie innych funkcji. 
 
+Możemy analizwoać przychodzące żądania z pomocą pakietu parsera. Parser to oprogramowanie typu Midleware - pośrednie. 
 
+Zamiast korzystać z use możemy skorzystać z get. App get oprócz filtrowania ścieżki pozwala na filtrowanie żądania. Oprócz get istnie również post. 
+
+GET oznacza pobieranie a POST wysyłanie. Jest to inny sposób korzystania z Midleware. 
+
+Istnieją również metody DELETE, PATCH, ... .
+
+USING EXPRESS ROUTING
+
+Routing umożliwia sprawne poruszanie się pomiędzy aplikacją rozbitą na poszczególne moduły.
+
+404
+
+app.use((req,res,next)=>{
+  res.status(404).send('<h1>Page not found</h1>')
+});
+
+Adresy nie mgą się powtarzać chyba że używamy różnych metod np.: "GET" i "POST".
+
+
+SERVING HTML PAGES
+
+//SENDFILE
+
+router.get('/', (req, res, next) => {
+  res.sendFile(path.join(__dirname, '../','views', 'shop.html'));
+});
+
+__dirname - zmienna globalna która przechwouje bezwględną ścieżkę. Metoda join łączy segmenty view shop.html ... . Możemy używać takiego rozwiązania na systemie Win, Linux.
