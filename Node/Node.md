@@ -132,7 +132,6 @@ app.use((req,res,next)=>{
 
 Adresy nie mgą się powtarzać chyba że używamy różnych metod np.: "GET" i "POST".
 
-
 SERVING HTML PAGES
 
 //SENDFILE
