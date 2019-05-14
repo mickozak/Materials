@@ -141,3 +141,10 @@ router.get('/', (req, res, next) => {
 });
 
 __dirname - zmienna globalna która przechwouje bezwględną ścieżkę. Metoda join łączy segmenty view shop.html ... . Możemy używać takiego rozwiązania na systemie Win, Linux.
+
+Za pomocą funkcji pomocnika możemy uzyskać katalog nadrzędny. 
+
+dirname() - zwraca nazwę 
+process - globalna zmienna procesowa
+mainModule - główny moduł który uruchamia aplikacje
+filename - wywołanie nazwy
