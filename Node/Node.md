@@ -148,3 +148,67 @@ dirname() - zwraca nazwę
 process - globalna zmienna procesowa
 mainModule - główny moduł który uruchamia aplikacje
 filename - wywołanie nazwy
+
+SERVING FILES STATICALLY
+Aby móc obsługiwać pliki statycznie czyli np.: zewnętrzne pliki css, należy dodać funkcje, którą oferuje express. 
+app.use(express.static(path.join(__dirname, 'public')))
+
+A w pliku HTML kod kierujący do pliku css.
+    <link rel="stylesheet" href="/css/main.css">
+
+6. WORKING WITH DYNAMIC CONTENT & ADDING TEMPLATING ENGINES
+SHARING DATA ACROSS REQUEST & USERS
+W app.js dodajemy:
+app.use('/admin', adminData.routes);
+
+Dane administratora odnoszą się do całego eksportu. 
+W admin.js eksportujemy następujące rzeczy:
+exports.router=router;
+exports.products=products;
+
+W admin.js tworzymy tablicę oraz dodajemy do niej produkt:
+const products = [];
+products.push({title: req.body.title})
+
+W shop.js importujemy adminData:
+const adminData = require('./admin')
+console.log(adminData.products)
+
+TEMPLATING ENGINES
+Silnik templacyjny działa w następujący sposób. Mamy szablon html, zawartość węzła (tablica produktów), silnik szablonowy który rozumie pewną składnię dla której skanuje szablon i zastępuje pewną treść zawartą w dokumencie HTML. Wyniki są generowane w locie. Następnie to wszystko jest wysyłane z powrotem do użytkownika. Strona nie jest zakodowana na sztywno tylko generowana w locie.  Silniki pozwalają na wstrzykiwanie treści w sposób dynamiczny.
+DOSTĘPNE SILNIKI 
+- EJS
+- PUG (JADE)
+- HANDLEBARS
+
+PUG
+Na wstępie należy ustawić globalną konfigurację:
+app.set('view engine','pug')
+app.set('views','views')
+
+Wiersz pierwszy oznacza że używamy template engine – pug, drugi zaś że widok znajduje się w folderze widok. 
+Tworzymy plik shop.pug
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title My Shop
+        link(rel="stylesheet", href="/css/main.css")
+        link(rel="stylesheet", href="/css/product.css")
+    body
+        header.main-header
+            nav.main-header__nav
+                ul.main-header__item-list
+                    li.main-header__item
+                        a.active(href="/") Shop
+                    li.main-header__item
+                        a(href="/admin/add-product") Add Product
+
+A następnie w pliku shop.js odwołujemy się do renderowania domyślnego:
+router.get('/', (req, res, next) => {
+  res.render();
+});
+
+
