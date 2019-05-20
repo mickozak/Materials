@@ -211,4 +211,39 @@ router.get('/', (req, res, next) => {
   res.render();
 });
 
+OUTPUTTING DYNAMIC CONTENT
+W pliku shop.js przekazujemy dane w sposób dynamiczny do pliku shop.pug który jest odzwierciedleniem pliku shop.html
+router.get('/', (req, res, next) => {
+  const products = adminData.products;
+  res.render('shop', {prods: products, docTitle: 'Shop'});
+});
+
+Shop.pug i jego składania prezentuje się następująco:
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title #{docTitle}
+        link(rel="stylesheet", href="/css/main.css")
+        link(rel="stylesheet", href="/css/product.css")
+    body
+        header.main-header
+            nav.main-header__nav
+                ul.main-header__item-list
+                    li.main-header__item
+                        a.active(href="/") Shop
+                    li.main-header__item
+                        a(href="/admin/add-product") Add Product
+
+Istnieje możliwość dodawania pętli each product in prods oraz instrukcji warunkowych if products.lenght > 0 i  zmiennych #{products.title}.
+Na dodawanie więcej niż jednego stylu lub bloku pozwala block.
+block style
+Gdy chcemy dodać tzw. layout możemy rozszerzyć inny plik:
+extends layouts/main-layouts
+block content
+    h1 Page Not Found!
+
+
 
