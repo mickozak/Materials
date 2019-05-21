@@ -245,5 +245,33 @@ extends layouts/main-layouts
 block content
     h1 Page Not Found!
 
+HANDLEBARS
+
+W pierwszej kolejności importujemy nowy silnik ponieważ nie jest on wbudowany. 
+
+const expressHbs = require('express-handlebars')
+
+W następnej kolejności musimy przygotować wywołanie i zainicjalizować silnik.
+
+app.engine('handlebars',expressHbs({layoutsDir: 'views/layouts/', defaultLayout: 'main-layout', extname: 'handlebars'}))
+app.set('view engine', 'handlebars');
+
+W pliku logiki ustawiamy hasProducts:
+
+router.get('/', (req, res, next) => {
+  const products = adminData.products;
+  res.render('shop', {prods: products, pageTitle: 'Shop', path: '/', hasProducts: products.length>0});
+});
+
+Treść dynamiczną wprowadzamy w nasępujący sposób {{pageTitle}} Możemy używać instrukcji warunkowych {{#if hasProducts}} ... {{else}} ... {{/if}} lub pętli {{#each}} ... {{/each}}
+
+W Handlebars nie ma możliwości tworzenia typowych bloków. Możemy używać nawiasów 3x{} - {{{ body }}}
+
+EJS
+
+W EJS aby wstawić kod w sposób dynamiczny używamy <%= ... %>
+Instrukcje warunkowe wstawiamy w Vanila JS - <% if (prods.lenght>0) { %> ... <% } %> tak jak i pętle <% for (let product of prods){%> ... <% } %>
+
+Możemy tworzyć globalny layout. Importuje w następujący sposób poszczególne części: <%- include('includes/head.ejs') %>
 
 
