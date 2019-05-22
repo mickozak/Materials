@@ -274,4 +274,116 @@ Instrukcje warunkowe wstawiamy w Vanila JS - <% if (prods.lenght>0) { %> ... <% 
 
 Możemy tworzyć globalny layout. Importuje w następujący sposób poszczególne części: <%- include('includes/head.ejs') %>
 
+MVC - MODEL VIEW CONTROLLER 
+MVC to kontroler widoku modelu (pracujemy z modelami, widokami, kontrolerami). Modele to obiekty lub części kodu które odpowiadają za reprezentowanie danych w kodzie i pozwalają na pracę z danymi (zapisywanie, pobieranie). Widok jest odpowiedzialny za to co użytkownik widzi na końcu, są one odpowiedzialne za renderowanie odpowiedniej zawartości w naszych dokumentach HTML i wysyłanie jej do użytkownika. Kontrolery są punktem połączenia między modelami a widokami – wszelkie operacje na danych nadal są wykonywane za pomocą modeli a kontrolery przenoszą dane do widoków. Kontroler zawiera logikę pośrednią. Routes są to trasy które definiują na której/dla której ścieżki powinna być wykonywana metoda http, którą powinien wykonać kod kontrolera. Kontroler staje się w tedy rzeczą z którą definiuje się model do pracy i widok do renderowania. 
+Nasz kod dzielimy na bloki, przygotowujemy folder controller a w nim products.js. Product.js: eksportuje funkcję getAddProduct.
+exports.getAddProduct = (req, res, next) => {
+    res.render('add-product', {
+      pageTitle: 'Add Product',
+      path: '/admin/add-product',
+      formsCSS: true,
+      productCSS: true,
+      activeAddProduct: true
+    });
+}
+Którą następnie importujemy 
+const productController = require('../controllers/products')
+i łapiemy w Routes:
+router.get('/add-product', productController.getAddProduct);
+Model tworzymy w osobnym folderze np.: poprzez klase (ES6). Używamy tutaj metody save() która zapisuje dane i static fetchAll która zwraca produkt.
+const products = [];
 
+module.exports = class Product {
+    constructor(title){
+        this.title = title;
+    }
+    save(){
+        products.push(this)
+    }
+
+    static fetchAll(){
+        return this.products
+    }
+}
+W kontrolerze products importujemy model klasy:
+const Product = require('../models/product')
+odwołując się do niego nie zapominamy o metodzie save:
+exports.postAddProduct = (req, res, next) => {
+    const product = new Product(req.body.title);
+    product.save()
+    res.redirect('/');
+};
+
+Zapisując dane do pliku a nie do tablicy musimy zaimportować moduł fs w module. Powinien on zostać utworzony w specjalnej ścieżce path (aby działało na wszystkich systemach operacyjnych).
+const fs =require('fs')
+const path = require('path')
+Modyfikujemy klasę dodając path oraz fs – który odczyta zawartość pliku - fs.readFile(p) – odczytam plik na tej ścieżce. Zawsze używamy funkcji strzałkowej aby nie zmienić kontekstu i odnosić się do klasy. 
+const fs = require('fs');
+const path = require('path');
+
+const p = path.join(
+  path.dirname(process.mainModule.filename),
+  'data',
+  'products.json'
+);
+
+const getProductsFromFile = cb => {
+  fs.readFile(p, (err, fileContent) => {
+    if (err) {
+      cb([]);
+    } else {
+      cb(JSON.parse(fileContent));
+    }
+  });
+};
+
+module.exports = class Product {
+  constructor(t) {
+    this.title = t;
+  }
+
+save() {
+    getProductsFromFile(products => {
+      products.push(this);
+      fs.writeFile(p, JSON.stringify(products), err => {
+        console.log(err);
+      });
+    });
+}
+
+static fetchAll(cb) {
+    getProductsFromFile(cb);
+  }
+};
+
+Nasz kontroler products.js wygląda następująco:
+const Product = require('../models/product');
+
+exports.getAddProduct = (req, res, next) => {
+  res.render('add-product', {
+    pageTitle: 'Add Product',
+    path: '/admin/add-product',
+    formsCSS: true,
+    productCSS: true,
+    activeAddProduct: true
+  });
+};
+
+exports.postAddProduct = (req, res, next) => {
+  const product = new Product(req.body.title);
+  product.save();
+  res.redirect('/');
+};
+
+exports.getProducts = (req, res, next) => {
+  Product.fetchAll(products => {
+    res.render('shop', {
+      prods: products,
+      pageTitle: 'Shop',
+      path: '/',
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true
+    });
+  });
+};
