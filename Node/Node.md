@@ -387,3 +387,33 @@ exports.getProducts = (req, res, next) => {
     });
   });
 };
+
+DYNAMIC ROTES & ADVANCE MODELS
+Każdy poszczególny produkt musi mieć swoje ID. ID możemy uzyskać stosując pakiety zewnętrzne lub używając funkcji Math.random().
+W pliku shop folderu routes musimy dodać nowy router gdzie dwukropek informuje że będziemy mieli do czynienia ze zmienną dynamicznie ścieżką:
+router.get('/products/:productId')
+
+Segmenty dynamiczne muszą znajdować się poniżej segmentów statycznych na tej samej ścieżce. W kontrolerze dodajemy kod odpowiedzialny za ID.
+exports.getProduct = (req,res,next) => {
+  const prodId = req.params.productId;
+  console.log(prodId);
+  res.redirect('/');
+}
+Następnie w modelu tworzymy logikę do klasy dodajemy nową metodę. Wywołanie zwrotne przekazane jako parametr zostanie wywołane gdy skończymy znajdowanie produktu. Potrzebuje przeczytać cały plik getProductsFromFile. Chcę tutaj odfiltrować jeden określony produkt w modelowej klasie:
+static findById(id, cb){
+    getProductsFromFile(products=>{
+      const product = products.find(p=>p.id===id)
+      cb(product)
+    })
+  }
+A następnie w kontrolerze połączyć model z widokiem:
+exports.getProduct = (req,res,next) => {
+  const prodId = req.params.productId;
+  Product.findById(prodId, product=>{
+    console.log(product)
+  })
+  res.redirect('/');
+}
+ 
+RENDERING THE PRODUCT DETAIL VIEW
+
